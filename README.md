@@ -240,11 +240,13 @@ Este concepto se basa en la idea de incluir en el repositorio del proyecto todas
 el equipo de desarrollo va a comenzar el desarrollo de una solución basada en node 10 para construir algunos micro-servicios, con bases de datos mongo latest version, que ademas compartirán un servicio redis para resolver cierta especificación del proyecto y un servicio Minio para depositar archivos. Debemos dotar un repositorio con todas las facilidades y los entornos de desarrollo bajo las versiones requeridas que ayude a agilizar al máximo el esfuerzo de cada uno de los miembros del equipo de desarrollo.
 
 > repositorio con la practica terminada:
+https://github.com/GEEKSHUBS-DEVOPS2020/trabajando-con-contenedores-practica-uno
 
 # Práctica 2
 se nos pide dotar y desplegar un prestaShop para que una agencia de marketing que hemos sub-contratado pueda integrar un diseño maquetado por ellos, mientras nuestros developers desarrollan ciertos modulos requeridos.
 Dotaremos de un repositorio en el que todos los stakeHolders puedan trabajar ordenadamente y a traves del cual mas adelante podremos conectar los pipelines necesarios.
 
 > repositorio con la práctica terminada:
+https://github.com/GEEKSHUBS-DEVOPS2020/trabajando-con-contenedores-practica-dos
 
 
