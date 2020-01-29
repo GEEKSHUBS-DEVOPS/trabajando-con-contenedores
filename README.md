@@ -36,9 +36,17 @@ existen muchos mecanismos para instalar tanto docker como docker-compose en los 
     -	Accediendo a un contenedor en ejecución.
     - Personalizando nuestra imagen
 	    - El archivo Dockerfile
-   - Montar entornos de desarrollo contenerizados.
-	   
+  - Montar entornos de desarrollo contenerizados.
+	   - Ventajas y Desventajas
+	   - Orquestación con docker-compose
+	   - Tecnicas de Scripting
+	   - Repositorio
+	   - Facilitar el Build & Deploy 
+   - Entornos de Producción
+	   - vistos en la unidad anterior ( Desplegando contenedores )
 		  
+
+> **dia 1**
 
 # Conceptos	
 
@@ -117,4 +125,126 @@ mediante el argumento **-p** podemos mapear los puertos expuestos por el contene
 > listemos los contenedores con docker ps
 > vemos que nginx a diferencia de los contenedores anteriores no se detiene y continua vivo esperando conexiones a través del puerto 80 mapeado al puerto 9000 del sistema anfitrión.
 > esto se debe a que la salida **stdout** del proceso de nginx es infinita y un contenedor docker termina su ejecución cuando la salida estándar del proceso finaliza su emisión.
+
+
+## listando contenedores avanzado
+La salida de `docker ps` puede ser demasiado verbosa y frecuentemente muestra muchos campos que no son interesantes. 
+
+### formateado
+Puedes usar formato Go-template para mostrar solo los campos que te interesen. Aquí está mostrando solo el nombre y el comando:
+
+       docker ps --no-trunc --format '{{.Names}}\t{{.Command}}'
+
+
+### filtrado
+El comando `docker ps` soporta muchos filtros. Son bastante sencillos de usar. La sintaxis es -f "<filtro>=<valor>". Los filtros soportados son id, label, name, exited, status, ancestor, before, since, isolation, network, y health.
+
+    `docker ps -a -f "name=busybox" --format 'table {{.ID}}\t{{.Status}}\t{{.Names}}'`
+
+### bandera **-q**
+Si por ejemplo solo quieres el ID, (esto es útil para componer scripts o sentencias conectadas a los que quieres pasar una colección de ids de contenedor ) 
+
+    docker ps -aq
+
+## deteniendo, iniciando y reiniciando contenedores
+tras arrancar un contenedor si no lo destruimos, o ejecutamos con la opción auto-remove, este contenedor permanecerá disponible para que podamos operar con el.
+No es lo mismo iniciar, o reiniciar un contenedor que ejecutar un contenedor, ya que cuando lo inicias, o reinicias usa las mismas variables de entorno, volúmenes, puertos que su ejecución original.
+
+### deteniendo
+
+    docker stop nginx
+### iniciando
+
+    docker start nginx
+### reiniciando
+
+    docker restart nginx
+
+## Destruyendo contenedores
+solo se puede destruir un contenedor detenido mediante el comando rm seguido tanto de su nombre como de su id
+
+    docker rm custom-mysql
+si quieres remover un contenedor en ejecución puedes usar el forzado con el argumento **-f**
+
+### destruir todos los contenedores
+
+    docker rm -f $(docker ps -aq)
+
+
+## Ejecutar comandos dentro de contenedores en ejecución
+a diferencia de **run** la función **exec** no genera un nuevo contenedor si no que accede a uno que ya esta en ejecución para ejecutar el comando que se le indique.
+
+    docker exec nginx cat /etc/nginx/nginx.conf | grep worker_processes
+
+### comandos interactivos
+al igual que con la funcion **run** podemos lanzar con **exec** cualquier comando añadiendo **--it** para obtener interactividad a través de la entrada **stdin**.
+esto nos permite ejecutar con interactividad el comando mas potente y que mas nos va a permitir interactuar con nuestro contenedor el **Shell** siempre y cuando este disponible en el contenedor. ( habitualmente bash o /bin/bash )
+
+# Shell interactivo
+
+    docker exec -it nginx bash
+
+
+# Personalizando nuestra imagen
+## el archivo Dockerfile
+
+Es un archivo de configuración que se utiliza para crear imágenes. En dicho archivo indicamos qué es lo que queremos que tenga la imagen, y los distintos comandos para instalar las herramientas. Esto sería un ejemplo de **Dockerfile** para tener una imagen de Ubuntu con Git instalado:
+
+    FROM ubuntu:latest
+    RUN apt-get update
+    RUN apt-get -qqy install git
+
+> ejercicio: crea un archivo llamado Dockerfile y edita su contenido con el código anterior
+
+## creando la imagen
+
+### sin nombre
+docker le pondra a nuestra nueva imagen un nombre auto-generado
+
+    docker build -t .
+
+### con nombre
+docker creara una imagen con el nombre custom-ubuntu-git a partir del Dockerfile
+
+    docker build -t custom-ubuntu-git .
+    
+
+> **dia 2**
+
+  # Entornos de desarrollo en contenedores
+  a menudo nuestro equipo de desarrollo se puede enfrentar a la necesidad de trabajar con proyectos basados en diferentes stacks, con diversos contextos que habitualmente pueden ser incluso incompatibles entre si.  Por tanto una buena filosofía DevOps es la de facilitar el setup de un proyecto a los developers ya que en esta tarea se puede invertir mucho tiempo cada vez que un developer cambia de proyecto o se actualiza un repo después de cierto tiempo.
+### ventajas
+  *	el tiempo y esfuerzo de setup del entorno de desarrollo se reduce radicalmente.
+  *	se eliminan problemas de dependencias de versiones entre developers y entornos.
+  *	el entorno de desarrollo y el de producción son idénticos.
+  *	el contexto de desarrollo es el mismo para todos los developers.
+ 
+
+>  ¿ se nos ocurren mas ventajas ?
+
+### desventajas
+* el uso de herramientas cliente o facilidades de los propios frameworks de desarrollo se vuelve mas compleja por tener que ser aplicada dentro de los contenedores y no estar disponibles en el anfitrión.
+
+## Orquestación con docker-compose
+Docker Compose es una herramienta de orquestación  que permite simplificar el uso de Docker, generando scripts que facilitan el diseño y la construcción de servicios.
+
+## Tecnicas de Scripting
+Algunos comandos o funciones repetitivas relativas a un proyecto en concreto, pueden incluirse en el repositorio de desarrollo de manera que faciliten a los desarrolladores y a todas las partes involucradas la ejecución de esas tareas.
+Tareas que se repiten tras clonar el repositorio como, arrancar todos los servicios, parar todos los servicios, acceder a un contenedor para ejecutar un comado concreto, instalar librerias... etc.
+Si adjuntamos una colección de scripts, no solo lograremos que se trabaje con cierta homogeneidad en el equipo, si no que ademas aceleraremos todos sus procesos.
+
+## Repositorio full-equip
+Este concepto se basa en la idea de incluir en el repositorio del proyecto todas las herramientas y scripts necesarios, así como un correcto Readme que explique con detalle el uso de cada una de estas herramientas.  El valor que aporta esto a un equipo de desarrollo justifica con creces cada hora invertida en esta labor.
+
+# Práctica 1
+el equipo de desarrollo va a comenzar el desarrollo de una solución basada en node 10 para construir algunos micro-servicios, con bases de datos mongo latest version, que ademas compartirán un servicio redis para resolver cierta especificación del proyecto y un servicio Minio para depositar archivos. Debemos dotar un repositorio con todas las facilidades y los entornos de desarrollo bajo las versiones requeridas que ayude a agilizar al máximo el esfuerzo de cada uno de los miembros del equipo de desarrollo.
+
+> repositorio con la practica terminada:
+
+# Práctica 2
+se nos pide dotar y desplegar un prestaShop para que una agencia de marketing que hemos sub-contratado pueda integrar un diseño maquetado por ellos, mientras nuestros developers desarrollan ciertos modulos requeridos.
+Dotaremos de un repositorio en el que todos los stakeHolders puedan trabajar ordenadamente y a traves del cual mas adelante podremos conectar los pipelines necesarios.
+
+> repositorio con la práctica terminada:
+
 
