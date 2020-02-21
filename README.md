@@ -4,7 +4,7 @@
 
 
 ```
-Fecha: 31 de enero y 1 de febrero de 2020
+Fecha: 21 y 22 de febrero de 2020
 Profesor: David Pestana
 Horas: 10
 ```
