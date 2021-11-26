@@ -4,7 +4,7 @@
 
 
 ```
-Fecha: 15 y 16 de enero de 2021
+Fecha: 26 y 27 de noviembre de 2021
 Profesor: David Pestana
 Horas: 10
 ```
