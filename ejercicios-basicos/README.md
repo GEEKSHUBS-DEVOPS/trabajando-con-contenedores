@@ -30,4 +30,4 @@ Ejercicios para la comprension de los conceptos básicos de Docker
 10. **Documentación y búsqueda de imágenes**:
    - Ejercicio: Investiga en Docker Hub una imagen de tu interés. Lee su documentación, observa sus etiquetas y versiones disponibles. Luego, descarga y ejecuta un contenedor basado en esta imagen.
 
-Estos ejercicios deberían proporcionar una buena comprensión de los conceptos básicos de Docker, incluyendo la creación de contenedores, control de procesos, redes y exposición de puertos, manejo de volúmenes y variables de entorno, así como la interacción entre contenedores. ¡Espero que tus alumnos los encuentren útiles!
+Estos ejercicios deberían proporcionar una buena comprensión de los conceptos básicos de Docker, incluyendo la creación de contenedores, control de procesos, redes y exposición de puertos, manejo de volúmenes y variables de entorno, así como la interacción entre contenedores.
