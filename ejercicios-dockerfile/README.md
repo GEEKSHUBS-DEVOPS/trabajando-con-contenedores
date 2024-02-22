@@ -46,7 +46,10 @@ COPY mi_app_flask.py /app/mi_app_flask.py
 WORKDIR /app
 
 # Instala las dependencias
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Exponer el puerto 5000
+EXPOSE 5000
 
 # Ejecuta la aplicación Flask
 CMD ["python", "mi_app_flask.py"]
@@ -54,7 +57,8 @@ CMD ["python", "mi_app_flask.py"]
 
 requirements.txt:
 ```
-Flask==2.1.0
+Flask==2.0.1
+Werkzeug==2.0.2
 ```
 
 mi_app_flask.py:
