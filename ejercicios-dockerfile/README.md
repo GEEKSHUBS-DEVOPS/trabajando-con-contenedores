@@ -127,12 +127,6 @@ COPY mi_app_flask.py /app/mi_app_flask.py
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Agrega un usuario no root
-RUN adduser -D miusuario
-
-# Cambia al usuario no root
-USER miusuario
-
 # Instala las dependencias
 RUN pip install -r requirements.txt
 
@@ -167,12 +161,6 @@ COPY mi_app_flask.py /app/mi_app_flask.py
 
 # Establece el directorio de trabajo
 WORKDIR /app
-
-# Agrega un usuario no root
-RUN adduser -D miusuario
-
-# Cambia al usuario no root
-USER miusuario
 
 # Ejecuta la aplicación Flask
 CMD ["python", "mi_app_flask.py"]
