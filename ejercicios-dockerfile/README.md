@@ -140,6 +140,9 @@ RUN pip install -r requirements.txt
 CMD ["python", "mi_app_flask.py"]
 ```
 
+
+#  EJERCICIOS MULTI STAGE
+
 **Ejercicio 5: Optimizar la construcción del contenedor**
 Objetivo: Minimizar las capas de la imagen Docker para mejorar la eficiencia y el rendimiento.
 
@@ -178,7 +181,6 @@ CMD ["python", "mi_app_flask.py"]
 Estos ejercicios proporcionan una base sólida para comenzar a trabajar con Docker y Dockerfile. ¡Espero que te sean útiles para aprender y practicar!
 
 
-#  EJERCICIOS MULTI STAGE
 
 ¡Por supuesto! Aquí tienes dos ejercicios adicionales utilizando multi-stage builds:
 
