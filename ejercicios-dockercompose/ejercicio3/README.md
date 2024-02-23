@@ -8,7 +8,7 @@ services:
   web:
     build: .
     ports:
-      - "5000:5000"
+      - "5000-5002:5000"
     depends_on:
       - db
     scale: 3
@@ -17,8 +17,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: flaskapp
-    ports:
-      - "3306:3306"
 ```
 
 Paso 2: Escala el servicio web:

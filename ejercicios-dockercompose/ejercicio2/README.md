@@ -38,8 +38,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: flaskapp
-    ports:
-      - "3306:3306"
 ```
 
 Paso 4: Crea un archivo `requirements.txt` con las dependencias de Flask.
