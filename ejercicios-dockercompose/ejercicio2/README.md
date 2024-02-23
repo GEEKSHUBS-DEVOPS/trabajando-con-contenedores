@@ -46,6 +46,10 @@ Paso 4: Crea un archivo `requirements.txt` con las dependencias de Flask.
 
 ```txt
 Flask==1.1.2
+Jinja2==2.11.3
+markupsafe==1.1.1
+itsdangerous==1.1.0
+werkzeug==1.0.1
 mysql-connector-python==8.0.23
 ```
 
